@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Assigment3.Data;
 
 namespace Assigment3
 {
@@ -32,6 +34,9 @@ namespace Assigment3
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Assigment3", Version = "v1" });
             });
+
+            services.AddDbContext<Assigment3Context>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("Assigment3Context")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
