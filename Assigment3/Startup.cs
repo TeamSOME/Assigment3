@@ -30,6 +30,7 @@ namespace Assigment3
         {
 
             services.AddControllers();
+            services.AddSignalR();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Assigment3", Version = "v1" });
@@ -58,6 +59,7 @@ namespace Assigment3
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<UpdateClient>("/updateClient");
             });
         }
     }
