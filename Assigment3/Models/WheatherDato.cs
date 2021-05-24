@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Assigment3.Models
 {
@@ -26,7 +23,7 @@ namespace Assigment3.Models
         public string Humidity { get; set; }
         [Required]
         [Display(Name = "Airpresser in (mBr):")]
-        public string Airpresser { get; set; }
+        public double Airpresser { get; set; }
 
     }
   
