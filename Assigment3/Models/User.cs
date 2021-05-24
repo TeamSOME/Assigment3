@@ -9,7 +9,7 @@ namespace Assigment3.Models
     public class User
     {
         [Key]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [MaxLength(50)]
         public string Name { get; set; }
         [MaxLength(100)]
