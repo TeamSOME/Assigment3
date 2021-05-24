@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Assigment3.Data;
 using Assigment3.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using System.Text.Json;
 
 namespace Assigment3.Controllers
 {
@@ -91,6 +93,30 @@ namespace Assigment3.Controllers
         // POST: WheatherDatoes1/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
+        //POST WEATHER OBSERVATION IF AUTHENTICATED
+        [HttpPost("/POST DATA")]
+        [Authorize(AuthenticationSchemes = "JwtBearer")]
+        public async Task<ActionResult<IEnumerable<WheatherDato>>> PostWeatherData(WheatherDato wheatherDato)
+        {
+
+            _context.WheatherDato.Add(wheatherDato);
+            await _context.SaveChangesAsync();
+
+            if (_hubContext != null)
+            {
+                string JSON = JsonSerializer.Serialize(wheatherDato);
+                await _hubContext.Clients.All.SendAsync("Yeet ya data", JSON);
+            }
+
+            return CreatedAtAction("GetWeatherObservation", new { id = wheatherDato.WheatherDatoID }, wheatherDato);
+        }
+
+
+
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("WheatherDatoID,Date,TemperatureC,Humidity,Airpresser")] WheatherDato wheatherDato)
@@ -119,6 +145,8 @@ namespace Assigment3.Controllers
             }
             return View(wheatherDato);
         }
+
+
 
         // POST: WheatherDatoes1/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
