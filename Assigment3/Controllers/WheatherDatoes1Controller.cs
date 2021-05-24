@@ -7,23 +7,62 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Assigment3.Data;
 using Assigment3.Models;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Assigment3.Controllers
 {
     public class WheatherDatoes1Controller : Controller
     {
         private readonly Assigment3Context _context;
+        private readonly IHubContext<WeatherHub> _hubContext;
 
-        public WheatherDatoes1Controller(Assigment3Context context)
+        public WheatherDatoes1Controller(Assigment3Context context, IHubContext<WeatherHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         // GET: WheatherDatoes1
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<WheatherDato>>> GetWeatherData()
         {
-            return View(await _context.WheatherDato.ToListAsync());
+            return await _context.WheatherDato.Include(l=>l.place).ToListAsync();
         }
+
+        //GET: 3 DAYS
+        [HttpGet("/3DAYS")]
+        public async Task<ActionResult<IEnumerable<WheatherDato>>> GetLatestWeatherData()
+        {
+            return await _context.WheatherDato.Include(l => l.place).OrderByDescending(l => l.Date).Take(3).ToListAsync();
+        }
+        //GET: BY DATE
+        [HttpGet("/BYDATE")]
+
+        public async Task<ActionResult<IEnumerable<WheatherDato>>> GetByDateWeatherData(DateTime? date)
+        {
+            if (date == null) return NotFound();
+            DateTime dateTime = (DateTime) date;
+            return await _context.WheatherDato.Include(l => l.place).Where(l => l.Date.Date == dateTime.Date).ToListAsync();
+        }
+
+        //GET: INTERVAL
+        [HttpGet("/INTERVAL")]
+        public async Task<ActionResult<IEnumerable<WheatherDato>>> GetIntervalWeatherData(DateTime? dateStart, DateTime? dateStop)
+        {
+            var intervalObservation = await _context.WheatherDato.ToListAsync();
+            var q = new List<WheatherDato>();
+
+
+            foreach (var interval in intervalObservation)
+            {
+                if (interval.CurrentTime >= dateStart && interval.CurrentTime <= dateStop)
+                {
+                    q.Add(interval);
+                }
+            }
+
+            return q;
+         }
 
         // GET: WheatherDatoes1/Details/5
         public async Task<IActionResult> Details(int? id) //NULLABLE?

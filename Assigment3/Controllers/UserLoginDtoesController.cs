@@ -1,153 +1,159 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Assigment3.Data;
-using Assigment3.Models;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Threading.Tasks;
+//using Microsoft.AspNetCore.Mvc;
+//using Microsoft.AspNetCore.Mvc.Rendering;
+//using Microsoft.EntityFrameworkCore;
+//using Assigment3.Data;
+//using Microsoft.AspNetCore.Authorization;
+//using Microsoft.Extensions.Options;
+//using Microsoft.IdentityModel.Tokens;
+//using Assigment3.Models;
 
-namespace Assigment3.Controllers
-{
-    public class UserLoginDtoesController : Controller
-    {
-        private readonly Assigment3Context _context;
 
-        public UserLoginDtoesController(Assigment3Context context)
-        {
-            _context = context;
-        }
 
-        // GET: UserLoginDtoes
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.UserLoginDto.ToListAsync());
-        }
+//namespace Assigment3.Controllers
+//{
+//    public class UserLoginDtoesController : Controller
+//    {
+//        private readonly Assigment3Context _context;
 
-        // GET: UserLoginDtoes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+//        public UserLoginDtoesController(Assigment3Context context)
+//        {
+//            _context = context;
+        
+//        }
 
-            var userLoginDto = await _context.UserLoginDto
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (userLoginDto == null)
-            {
-                return NotFound();
-            }
+//        // GET: UserLoginDtoes
+//        public async Task<IActionResult> Index()
+//        {
+//            return View(await _context.UserLoginDto.ToListAsync());
+//        }
 
-            return View(userLoginDto);
-        }
+//        // GET: UserLoginDtoes/Details/5
+//        public async Task<IActionResult> Details(int? id)
+//        {
+//            if (id == null)
+//            {
+//                return NotFound();
+//            }
 
-        // GET: UserLoginDtoes/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+//            var userLoginDto = await _context.UserLoginDto
+//                .FirstOrDefaultAsync(m => m.UserId == id);
+//            if (userLoginDto == null)
+//            {
+//                return NotFound();
+//            }
 
-        // POST: UserLoginDtoes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,Name,UserPassword,Email")] UserLoginDto userLoginDto)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(userLoginDto);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(userLoginDto);
-        }
+//            return View(userLoginDto);
+//        }
 
-        // GET: UserLoginDtoes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+//        // GET: UserLoginDtoes/Create
+//        public IActionResult Create()
+//        {
+//            return View();
+//        }
 
-            var userLoginDto = await _context.UserLoginDto.FindAsync(id);
-            if (userLoginDto == null)
-            {
-                return NotFound();
-            }
-            return View(userLoginDto);
-        }
+//        // POST: UserLoginDtoes/Create
+//        // To protect from overposting attacks, enable the specific properties you want to bind to.
+//        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+//        [HttpPost]
+//        [ValidateAntiForgeryToken]
+//        public async Task<IActionResult> Create([Bind("UserId,Name,UserPassword,Email")] UserLoginDto userLoginDto)
+//        {
+//            if (ModelState.IsValid)
+//            {
+//                _context.Add(userLoginDto);
+//                await _context.SaveChangesAsync();
+//                return RedirectToAction(nameof(Index));
+//            }
+//            return View(userLoginDto);
+//        }
 
-        // POST: UserLoginDtoes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,Name,UserPassword,Email")] UserLoginDto userLoginDto)
-        {
-            if (id != userLoginDto.UserId)
-            {
-                return NotFound();
-            }
+//        // GET: UserLoginDtoes/Edit/5
+//        public async Task<IActionResult> Edit(int? id)
+//        {
+//            if (id == null)
+//            {
+//                return NotFound();
+//            }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(userLoginDto);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserLoginDtoExists(userLoginDto.UserId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(userLoginDto);
-        }
+//            var userLoginDto = await _context.UserLoginDto.FindAsync(id);
+//            if (userLoginDto == null)
+//            {
+//                return NotFound();
+//            }
+//            return View(userLoginDto);
+//        }
 
-        // GET: UserLoginDtoes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+//        // POST: UserLoginDtoes/Edit/5
+//        // To protect from overposting attacks, enable the specific properties you want to bind to.
+//        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+//        [HttpPost]
+//        [ValidateAntiForgeryToken]
+//        public async Task<IActionResult> Edit(int id, [Bind("UserId,Name,UserPassword,Email")] UserLoginDto userLoginDto)
+//        {
+//            if (id != userLoginDto.UserId)
+//            {
+//                return NotFound();
+//            }
 
-            var userLoginDto = await _context.UserLoginDto
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (userLoginDto == null)
-            {
-                return NotFound();
-            }
+//            if (ModelState.IsValid)
+//            {
+//                try
+//                {
+//                    _context.Update(userLoginDto);
+//                    await _context.SaveChangesAsync();
+//                }
+//                catch (DbUpdateConcurrencyException)
+//                {
+//                    if (!UserLoginDtoExists(userLoginDto.UserId))
+//                    {
+//                        return NotFound();
+//                    }
+//                    else
+//                    {
+//                        throw;
+//                    }
+//                }
+//                return RedirectToAction(nameof(Index));
+//            }
+//            return View(userLoginDto);
+//        }
 
-            return View(userLoginDto);
-        }
+//        // GET: UserLoginDtoes/Delete/5
+//        public async Task<IActionResult> Delete(int? id)
+//        {
+//            if (id == null)
+//            {
+//                return NotFound();
+//            }
 
-        // POST: UserLoginDtoes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var userLoginDto = await _context.UserLoginDto.FindAsync(id);
-            _context.UserLoginDto.Remove(userLoginDto);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+//            var userLoginDto = await _context.UserLoginDto
+//                .FirstOrDefaultAsync(m => m.UserId == id);
+//            if (userLoginDto == null)
+//            {
+//                return NotFound();
+//            }
 
-        private bool UserLoginDtoExists(int id)
-        {
-            return _context.UserLoginDto.Any(e => e.UserId == id);
-        }
-    }
-}
+//            return View(userLoginDto);
+//        }
+
+//        // POST: UserLoginDtoes/Delete/5
+//        [HttpPost, ActionName("Delete")]
+//        [ValidateAntiForgeryToken]
+//        public async Task<IActionResult> DeleteConfirmed(int id)
+//        {
+//            var userLoginDto = await _context.UserLoginDto.FindAsync(id);
+//            _context.UserLoginDto.Remove(userLoginDto);
+//            await _context.SaveChangesAsync();
+//            return RedirectToAction(nameof(Index));
+//        }
+
+//        private bool UserLoginDtoExists(int id)
+//        {
+//            return _context.UserLoginDto.Any(e => e.UserId == id);
+//        }
+//    }
+//}

@@ -14,7 +14,7 @@ namespace Assigment3.Models
         public DateTime Date { get; set; }
         [Required]
         [Display(Name = "CurrentTime:")]
-        public string CurrentTime => Date.ToString("HH:mm");
+        public DateTime CurrentTime => Date;
         [Required]
         [Display(Name = "Temperature in grad (C):")]
         public double TemperatureC { get; set; }
