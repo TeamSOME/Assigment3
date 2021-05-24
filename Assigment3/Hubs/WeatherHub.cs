@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
-public class UpdateClient : Hub
+public class WeatherHub : Hub
 {
     public async Task SendMessage(string user, string message)
     {

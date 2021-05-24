@@ -52,6 +52,8 @@ namespace Assigment3
 
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles();// to web. API projekt  
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -59,7 +61,7 @@ namespace Assigment3
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<UpdateClient>("/updateClient");
+                endpoints.MapHub<WeatherHub>("/WeatherHub");
             });
         }
     }
