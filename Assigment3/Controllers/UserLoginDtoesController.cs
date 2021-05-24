@@ -10,85 +10,85 @@ using Assigment3.Models;
 
 namespace Assigment3.Controllers
 {
-    public class WheatherDatoes1Controller : Controller
+    public class UserLoginDtoesController : Controller
     {
         private readonly Assigment3Context _context;
 
-        public WheatherDatoes1Controller(Assigment3Context context)
+        public UserLoginDtoesController(Assigment3Context context)
         {
             _context = context;
         }
 
-        // GET: WheatherDatoes1
+        // GET: UserLoginDtoes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.WheatherDato.ToListAsync());
+            return View(await _context.UserLoginDto.ToListAsync());
         }
 
-        // GET: WheatherDatoes1/Details/5
-        public async Task<IActionResult> Details(int? id) //NULLABLE?
+        // GET: UserLoginDtoes/Details/5
+        public async Task<IActionResult> Details(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var wheatherDato = await _context.WheatherDato
-                .FirstOrDefaultAsync(m => m.WheatherDatoID == id);
-            if (wheatherDato == null)
+            var userLoginDto = await _context.UserLoginDto
+                .FirstOrDefaultAsync(m => m.UserId == id);
+            if (userLoginDto == null)
             {
                 return NotFound();
             }
 
-            return View(wheatherDato);
+            return View(userLoginDto);
         }
 
-        // GET: WheatherDatoes1/Create
+        // GET: UserLoginDtoes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: WheatherDatoes1/Create
+        // POST: UserLoginDtoes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WheatherDatoID,Date,TemperatureC,Humidity,Airpresser")] WheatherDato wheatherDato)
+        public async Task<IActionResult> Create([Bind("UserId,Name,UserPassword,Email")] UserLoginDto userLoginDto)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(wheatherDato);
+                _context.Add(userLoginDto);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(wheatherDato);
+            return View(userLoginDto);
         }
 
-        // GET: WheatherDatoes1/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // GET: UserLoginDtoes/Edit/5
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var wheatherDato = await _context.WheatherDato.FindAsync(id);
-            if (wheatherDato == null)
+            var userLoginDto = await _context.UserLoginDto.FindAsync(id);
+            if (userLoginDto == null)
             {
                 return NotFound();
             }
-            return View(wheatherDato);
+            return View(userLoginDto);
         }
 
-        // POST: WheatherDatoes1/Edit/5
+        // POST: UserLoginDtoes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("WheatherDatoID,Date,TemperatureC,Humidity,Airpresser")] WheatherDato wheatherDato)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,Name,UserPassword,Email")] UserLoginDto userLoginDto)
         {
-            if (id != wheatherDato.WheatherDatoID)
+            if (id != userLoginDto.UserId)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace Assigment3.Controllers
             {
                 try
                 {
-                    _context.Update(wheatherDato);
+                    _context.Update(userLoginDto);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!WheatherDatoExists(wheatherDato.WheatherDatoID))
+                    if (!UserLoginDtoExists(userLoginDto.UserId))
                     {
                         return NotFound();
                     }
@@ -113,41 +113,41 @@ namespace Assigment3.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(wheatherDato);
+            return View(userLoginDto);
         }
 
-        // GET: WheatherDatoes1/Delete/5
-        public async Task<IActionResult> Delete(int? id) //NULLABLE??
+        // GET: UserLoginDtoes/Delete/5
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var wheatherDato = await _context.WheatherDato
-                .FirstOrDefaultAsync(m => m.WheatherDatoID == id);
-            if (wheatherDato == null)
+            var userLoginDto = await _context.UserLoginDto
+                .FirstOrDefaultAsync(m => m.UserId == id);
+            if (userLoginDto == null)
             {
                 return NotFound();
             }
 
-            return View(wheatherDato);
+            return View(userLoginDto);
         }
 
-        // POST: WheatherDatoes1/Delete/5
+        // POST: UserLoginDtoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var wheatherDato = await _context.WheatherDato.FindAsync(id);
-            _context.WheatherDato.Remove(wheatherDato);
+            var userLoginDto = await _context.UserLoginDto.FindAsync(id);
+            _context.UserLoginDto.Remove(userLoginDto);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool WheatherDatoExists(int id)
+        private bool UserLoginDtoExists(int id)
         {
-            return _context.WheatherDato.Any(e => e.WheatherDatoID == id);
+            return _context.UserLoginDto.Any(e => e.UserId == id);
         }
     }
 }

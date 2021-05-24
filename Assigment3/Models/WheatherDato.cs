@@ -8,7 +8,7 @@ namespace Assigment3.Models
 {
     public class WheatherDato
     {
-        public string WheatherDatoID { get; set; }
+        public int WheatherDatoID { get; set; }
         [Required]
         [Display(Name = "Place:")]
         public Location place { get; set; }
@@ -20,7 +20,7 @@ namespace Assigment3.Models
         public string CurrentTime => Date.ToString("HH:mm");
         [Required]
         [Display(Name = "Temperature in grad (C):")]
-        public string TemperatureC { get; set; }
+        public double TemperatureC { get; set; }
         [Required]
         [Display(Name = "Humidity in (%):")]
         public string Humidity { get; set; }

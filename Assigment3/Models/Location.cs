@@ -9,16 +9,16 @@ namespace Assigment3.Models
     public class Location
     {
 
-        public string LocationID { get; set; }
+        public int LocationID { get; set; }
         [Required]
         [Display(Name = "Name:")]
         public string Name { get; set; }
         [Required]
         [Display(Name = "Latitude:")]
-        public string Latitude { get; set; }
+        public double Latitude { get; set; }
         [Required]
         [Display(Name = "Longitude:")]
-        public string Longitude { get; set; }
+        public double Longitude { get; set; }
    //56.167873
    //10.203767
     }

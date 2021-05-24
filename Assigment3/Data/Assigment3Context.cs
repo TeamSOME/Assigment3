@@ -16,5 +16,6 @@ namespace Assigment3.Data
 
         public DbSet<Assigment3.Models.WheatherDato> WheatherDato { get; set; }
         public DbSet<Assigment3.Models.User> Users  { get; set; }
+        public DbSet<Assigment3.Models.UserLoginDto> UserLoginDto { get; set; }
     }
 }
