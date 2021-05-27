@@ -16,6 +16,8 @@ using System.Text;
 
 namespace Assigment3.Controllers
 {
+    [ApiController]
+
     public class UsersController : Controller
     {
         const int BcryptWorkfactor = 11;
@@ -26,6 +28,8 @@ namespace Assigment3.Controllers
             _context = context;
         }
 
+
+        //Brugere gettes
         [HttpGet("Users"), AllowAnonymous]
         public async Task<ActionResult<List<User>>> Get()   
         {
@@ -40,10 +44,11 @@ namespace Assigment3.Controllers
 
         }
 
+        //Get bruger igennem id
+
         [HttpGet("Register/{id}", Name = "Get"), AllowAnonymous]
         public async Task<ActionResult<User>> Get(string userName)
         {
-            // her hentes og sammenlignes userName
             var user = await _context.Users.Where(a => a.Name == userName).FirstOrDefaultAsync();
 
             if (user == null)
@@ -54,6 +59,7 @@ namespace Assigment3.Controllers
             return user;
         }
 
+        //Register email
         [HttpPost("register"), AllowAnonymous]
         public async Task<ActionResult<UserLoginDto>> Register(UserLoginDto userReg)
         {
@@ -65,7 +71,7 @@ namespace Assigment3.Controllers
                 return BadRequest(new { errorMessage = "Email is in use" });
             }
 
-            User user = new User()
+            User user = new()
             {
                 Email = userReg.Email,
                 Name = userReg.Name
@@ -75,12 +81,12 @@ namespace Assigment3.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            var jwtToken = new TockenDto()
+            var jwtToken = new TockenDto
             {
                 Token = GenerateToken(user.Name)
             };
            
-            return CreatedAtAction("Get", new { id = user.UserId }, jwtToken);
+            return CreatedAtAction("Get", new { id = user.Name }, jwtToken);
 
         }
 
