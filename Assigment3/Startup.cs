@@ -18,6 +18,7 @@ using System.Text;
 using System.Reflection;
 using System.IO;
 using System.Xml;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Assigment3
 {
@@ -36,44 +37,30 @@ namespace Assigment3
             services.AddControllers();
             services.AddSignalR();
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = "JwtBearer";
-                options.DefaultChallengeScheme = "JwtBearer";
-            }).AddJwtBearer("JwtBearer", options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateAudience = false,
-                    ValidateIssuer = false,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Secret Key must be minimum 16 characters")),
-                    ValidateLifetime = true, //validate the expiration and not before values
-                    ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration
-                };
-            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
-                { Title = "Assigment3",
+                {
+                    Title = "Assigment3",
                     Version = "v1",
-                    Description= "NGK3" });
+                    Description = "NGK3"
+                });
 
-            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-             c.IncludeXmlComments(xmlPath);
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
 
-             OpenApiSecurityScheme securityDefinition = new OpenApiSecurityScheme()
-            {
-                Name = "Bearer",
-                BearerFormat = "JWT",
-                Scheme = "bearer",
-                Description = "Specify the authorization token.",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.Http,
-            };
+                OpenApiSecurityScheme securityDefinition = new OpenApiSecurityScheme()
+                {
+                    Name = "Bearer",
+                    BearerFormat = "JWT",
+                    Scheme = "bearer",
+                    Description = "Specify the authorization token.",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                };
                 c.AddSecurityDefinition("jwt_auth", securityDefinition);
-                
+
                 OpenApiSecurityScheme securityScheme = new OpenApiSecurityScheme()
                 {
                     Reference = new OpenApiReference()
@@ -86,14 +73,40 @@ namespace Assigment3
                 {
                     {securityScheme, new string[] { }},
                 };
-                
+
                 c.AddSecurityRequirement(securityRequirements);
 
             });
 
-
             services.AddDbContext<Assigment3Context>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("Assigment3Context")));
+
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.SecretKey);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -111,6 +124,8 @@ namespace Assigment3
             app.UseStaticFiles();// to web. API projekt  
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assigment3", "Assigment3\Assigment3.csproj", "{F60C5691-D068-4E06-A036-47FA67270DF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assigment3", "Assigment3\Assigment3.csproj", "{F60C5691-D068-4E06-A036-47FA67270DF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Opgave3.XUnitTest", "Opgave3.XUnitTest\Opgave3.XUnitTest.csproj", "{FC940161-2E30-4C83-B87E-A9E92D694DA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{F60C5691-D068-4E06-A036-47FA67270DF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F60C5691-D068-4E06-A036-47FA67270DF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F60C5691-D068-4E06-A036-47FA67270DF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC940161-2E30-4C83-B87E-A9E92D694DA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC940161-2E30-4C83-B87E-A9E92D694DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC940161-2E30-4C83-B87E-A9E92D694DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC940161-2E30-4C83-B87E-A9E92D694DA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
