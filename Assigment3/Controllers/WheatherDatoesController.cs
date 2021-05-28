@@ -43,7 +43,7 @@ namespace Assigment3.Controllers
             return await _context.WheatherDato.Include(l => l.place).Where(l => l.Date.Date == dateTime.Date).ToListAsync();
         }
 
-        //GET: 3 DAYS
+        //GET: LAST 3 OBSERVATIONS
         [HttpGet("/LAST3")]
         public async Task<ActionResult<IEnumerable<WheatherDato>>> GetLatestWeatherData()
         {
