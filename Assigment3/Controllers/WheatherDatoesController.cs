@@ -44,7 +44,7 @@ namespace Assigment3.Controllers
         }
 
         //GET: 3 DAYS
-        [HttpGet("/3DAYS")]
+        [HttpGet("/LAST3")]
         public async Task<ActionResult<IEnumerable<WheatherDato>>> GetLatestWeatherData()
         {
             return await _context.WheatherDato.Include(l => l.place).OrderByDescending(l => l.Date).Take(3).ToListAsync();
@@ -128,7 +128,7 @@ namespace Assigment3.Controllers
             if (_hubContext != null)
             {
                 string JSON = JsonSerializer.Serialize(wheatherDato);
-                await _hubContext.Clients.All.SendAsync("Yeet ya data", JSON);
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", JSON);
             }
 
             return CreatedAtAction("GetWheatherDato", new { id = wheatherDato.WheatherDatoID }, wheatherDato);

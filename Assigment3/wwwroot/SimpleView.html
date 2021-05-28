@@ -1,34 +1,29 @@
-﻿<!--<!DOCTYPE html>
-<html>-->
-<!-- Start the server with F5 or ctrl-F5. Then open this file in another browser (or tab)
-     with this url: https://localhost:44331/index.html -->
-<!--<head>
+﻿<!DOCTYPE html>
+<html>
+ <!--Start the server with F5 or ctrl-F5. Then open this file in another browser (or tab)
+     with this url: https://localhost:44331/index.html--> 
+<head>
     <meta charset="utf-8" />
     <title>Simple ws client</title>
 </head>
 <body>
     <h1>Simple ws client</h1>
-    <h3>Server counter</h3>
-    <label>Server count: </label><input type="text" id="serverCounter" readonly />
     <hr />
-    <h3>Chat</h3>
+    <h3>NEW WATHER OBSERVATIONS!</h3>
     <ul id="messagesList"></ul>
     <script src="https://unpkg.com/@microsoft/signalr@3.0.1/dist/browser/signalr.js" crossorigin="anonymous"></script>
     <script>
-        var connection = new signalR.HubConnectionBuilder().withUrl("/updateClient").build();
+        var connection = new signalR.HubConnectionBuilder().withUrl("/WeatherHub").build();
 
-        connection.on("countUpdate", function (count) {
-            console.log("countUpdate: " + count);
-            document.getElementById("serverCounter").value = count;
+        connection.on("ReceiveMessage", function (message) {
+            var str = JSON.stringify(JSON.parse(message), null, 2);
+            var msg = str;
+            var p = document.createElement("pre");
+            p.textContent = msg;
+            document.getElementById("messagesList").appendChild(p);
+            var breakHr = document.createElement("hr");
+            document.getElementById("messagesList").appendChild(breakHr);
         });
-
-        connection.on("ReceiveMessage", function (user, message) {
-            var encodedMsg = user + " says " + message;
-            var li = document.createElement("li");
-            li.textContent = encodedMsg;
-            document.getElementById("messagesList").appendChild(li);
-        });
-
 
         connection.start().then(function () {
             console.log("Connected");
@@ -37,4 +32,4 @@
         });
     </script>
 </body>
-</html>-->
+</html>
